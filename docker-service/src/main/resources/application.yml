@@ -1,0 +1,49 @@
+# 本地开发环境配置
+server:
+  port: 8011
+
+#spring:
+#  datasource:
+#    url: jdbc:oracle:thin:@172.16.4.91:1521:helowin
+#    username: dhr_hr
+#    password: dhr123
+#    driver-class-name: oracle.jdbc.OracleDriver
+#  jpa:
+#    database-platform: org.hibernate.dialect.Oracle10gDialect
+#    hibernate:
+#      ddl-auto: none #validate
+#  redis:
+#    database: 1
+#    host: 172.16.4.91
+#    port: 6379
+#    password: dhr123
+#    timeout: 5000ms
+#    lettuce:
+#      pool:
+#        min-idle: 0
+#        max-idle: 8
+#        max-wait: -1ms
+#        max-active: 8
+#  data:
+#    mongodb:
+#      uri: mongodb://dhr_hr:dhr123@172.16.4.91:27017/dhr_hr
+#  servlet:
+#    multipart:
+#      maxFileSize: 5MB
+spring:
+  zipkin:
+    base-url: http://127.0.0.1:9411/ #zipkin server的请求地址
+    discoveryClientEnabled: false #让nacos把它当成一个URL，而不要当做服务名
+  sleuth:
+    sampler:
+      probability: 1.0 #采样的百分比
+
+ribbon:
+  # 连接超时
+  ConnectTimeout: 10000
+  # 响应超时
+  ReadTimeout: 20000
+
+logging:
+  level:
+    ROOT: debug

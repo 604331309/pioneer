@@ -1,0 +1,23 @@
+spring:
+  profiles:
+    active: ${config.profile:dev}
+  application:
+    name: actuator-microservice
+  cloud:
+    config:
+      profile: ${spring.profiles.active}
+#      label: master
+      discovery:
+        enabled: ${config.enable:false}
+        serviceId: config-microservice
+
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://eureka-service:8761/eureka/
+  instance:
+    preferIpAddress: true
+    hostname: ${spring.cloud.client.ip-address}
+    instance-id: ${eureka.instance.hostname}:${server.port}

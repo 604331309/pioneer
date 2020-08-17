@@ -1,0 +1,67 @@
+server:
+  port: 7000
+  tomcat:
+    max-http-post-size:
+
+#security:
+#  oauth2:
+#    client:
+#      clientId: client
+#      clientSecret: 123
+#      userAuthorizationUri: http://localhost:9000/oauth/authorize
+#      grant-type: authorization_code
+#      scope: all
+#      access-token-uri: http://localhost:9000/oauth/token
+#    resource:
+#      userInfoUri: http://localhost:9000/user
+#    authorization:
+#      check-token-access: http://localhost:9000/oauth/check_token
+spring:
+  application:
+    name: cloud-gateway
+  zipkin:
+    base-url: http://127.0.0.1:9411/ #zipkin server的请求地址
+    discoveryClientEnabled: false #让nacos把它当成一个URL，而不要当做服务名
+  sleuth:
+    sampler:
+      probability: 1.0 #采样的百分比
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://docs.spring.io"
+            allowedMethods:
+              - GET
+      routes: # 路由数组[路由 就是指定当请求满足什么条件的时候转到哪个微 服务]
+        -
+          id: docker_route # 当前路由的标识, 要求唯一
+          uri: lb://docker-microservice # 请求要转发到的地址
+          order: 1 # 路由的优先级,数字越小级别 越高
+          predicates: # 断言(就是路由转发要满足的条件)
+            - Path=/docker/** # 当请求路径满足Path指定的规则时,才进行路由转发
+            - Age=18,60 # 自定义断言，让请求参数中age的值在18-60之间，通过断言
+          filters: # 过滤器,请求在传递过程中可以通过过滤器对其进行一定的修改
+            - StripPrefix=1 # 转发之前去掉1层路径
+            - Log=true,false # 自定义局部过滤器
+        -
+          id: file_route # 当前路由的标识, 要求唯一
+          uri: lb://file-microservice # 请求要转发到的地址
+          order: 1 # 路由的优先级,数字越小级别 越高
+          predicates: # 断言(就是路由转发要满足的条件)
+            - Path=/file-service/** # 当请求路径满足Path指定的规则时,才进行路由转发
+          filters: # 过滤器,请求在传递过程中可以通过过滤器对其进行一定的修改
+            - StripPrefix=1 # 转发之前去掉1层路径
+            - Log=true,false # 自定义局部过滤器
+  security:
+    user:
+      name: user
+      password: 1234
+logging:
+  level:
+    root: debug
+
+security:
+  jwt:
+    secret: thisissecertkey
+

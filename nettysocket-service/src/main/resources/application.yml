@@ -1,0 +1,66 @@
+server:
+  port: 8008
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/netty-socket?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
+    username: root
+    password: root
+    # hikari数据源配置，
+    hikari:
+      connection-test-query: SELECT 1 FROM DUAL
+      connection-timeout: 30000
+      maximum-pool-size: 20
+      max-lifetime: 1800000
+      minimum-idle: 5
+  jpa:
+    database: MySQL
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+  redis:
+    database: 1
+    host: 127.0.0.1
+    port: 6379
+    password: root
+    timeout: 15000ms
+    lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-wait: -1ms
+        max-active: 8
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: root
+    password: root
+      #消息确认配置项
+    #确认消息已发送到交换机(Exchange)
+    publisher-confirms: true
+    #确认消息已发送到队列(Queue)
+    publisher-returns: true
+    #设置为 true 后 消费者在消息没有被路由到合适队列情况下会被return监听，而不会自动删除
+#    spring.rabbitmq.template.mandatory=true
+    listener:
+      simple:
+        retry:
+          # 适用于消费端自动确认机制，手动确认则失效
+          enabled: true
+          #### 最大重试次数,如果超过重试次数还未被ack则会一直在队列中进入unacked状态，
+          # 只有等应用重启才来去消费这些消息，所以需要自己单独去持久化这些消息并强制ack掉，防止队列一直在增长
+          max-attempts: 5
+          ####重试间隔时间
+          initial-interval: 3000
+        acknowledge-mode: manual
+        # 并发数，增加消费性能
+        concurrency: 5
+
+
+
+wss:
+  server:
+    port: 8888
+    host: 127.0.0.1

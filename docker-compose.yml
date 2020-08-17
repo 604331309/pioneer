@@ -1,0 +1,65 @@
+version: "3.5"
+services:
+  eureka-service:
+    build: ./eureka
+    ## 相当于run命令中的-p参数
+    ports:
+      - "8761:8761"
+    ## 加入localnet网桥，该网桥是自定义的
+    networks:
+#      - localnet
+      - abc
+    ## 数据卷，即便容器被删除，指定的数据卷就不会被删除，可持久化关键文件数据
+#    volumes:
+#      - /Users/slk:/code
+
+  docker-service:
+    build: ./docker-service
+    ## command会覆盖Dockerfile中的cmd指令，但是entrypoint不会被覆盖
+    command: java -Dconfig.profile=sit -jar docker-service-1.0-SNAPSHOT.jar
+    ## 相当于run命令中的-p参数
+    ports:
+      - "8011:8011"
+    ## 加入localnet网桥，该网桥是自定义的
+    networks:
+      - abc
+    ## 数据卷，即便容器被删除，指定的数据卷就不会被删除，可持久化关键文件数据
+#    volumes:
+#      - type: volume
+#        source: counter-vol
+#        target: /code
+    ## 启动时添加主机信息到hosts
+    extra_hosts:
+      - "discovery:127.18.0.2"
+  gateway-service:
+    build: ./gateway-service
+    ## command会覆盖Dockerfile中的cmd指令，但是entrypoint不会被覆盖
+    command: java -Dconfig.profile=sit -jar gateway-service-1.0-SNAPSHOT.jar
+    ## 相当于run命令中的-p参数
+    ports:
+      - "8000:8000"
+    ## 加入localnet网桥，该网桥是自定义的
+    networks:
+#      - localnet
+      - abc
+    ## 数据卷，即便容器被删除，指定的数据卷就不会被删除，可持久化关键文件数据
+#    volumes:
+#      - type: volume
+#        source: counter-vol
+#        target: /code
+    ## 启动时添加主机信息到hosts
+#    extra_hosts:
+#      - "discovery:127.18.0.2"
+
+
+networks:
+#  localnet:
+  ## 该参数可以声明使用现有的网络localnet，如果不声明则会创建一个网络，例如下面声明的abc就会直接新建
+#    external: true
+  abc:
+
+#    driver: bridge
+
+#volumes:
+#  counter-vol:
+

@@ -1,0 +1,2 @@
+INSERT INTO `my-drools`.scene_info (id, created_date, created_user_oid, deleted, modified_date, modified_user_oid, oid, scene_desc, scene_code) VALUES (1, '2020-06-01 15:22:09', '1', false, '2020-06-01 15:22:21', '1', '1', '场景一', 'scene01');
+INSERT INTO `my-drools`.scene_info (id, created_date, created_user_oid, deleted, modified_date, modified_user_oid, oid, scene_desc, scene_code) VALUES (3, '2020-06-01 15:22:53', '1', false, '2020-06-01 15:22:51', '1', '2', '场景二', 'scene02');

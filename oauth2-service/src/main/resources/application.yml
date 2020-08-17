@@ -1,0 +1,45 @@
+# 本地开发环境配置
+server:
+  port: 9000
+
+spring:
+#  security:
+#    user:
+#      name: root
+#      password: 1234
+  datasource:
+    url: jdbc:mysql://localhost:3306/my-oauth?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false
+    username: root
+    password: root
+    # hikari数据源配置，
+    hikari:
+      connection-test-query: SELECT 1 FROM DUAL
+      connection-timeout: 30000
+      maximum-pool-size: 20
+      max-lifetime: 1800000
+      minimum-idle: 5
+  jpa:
+    database: MySQL
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+#  data:
+#    mongodb:
+#      uri: mongodb://dhr_hr:dhr123@172.16.4.91:27017/dhr_hr
+#  servlet:
+#    multipart:
+#      maxFileSize: 5MB
+
+
+ribbon:
+  # 连接超时
+  ConnectTimeout: 10000
+  # 响应超时
+  ReadTimeout: 20000
+
+logging:
+  level:
+    ROOT: debug

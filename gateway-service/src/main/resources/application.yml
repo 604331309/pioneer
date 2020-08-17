@@ -1,0 +1,52 @@
+# 本地开发环境配置
+server:
+  port: 8000
+
+#spring:
+#  datasource:
+#    url: jdbc:oracle:thin:@172.16.4.91:1521:helowin
+#    username: dhr_hr
+#    password: dhr123
+#    driver-class-name: oracle.jdbc.OracleDriver
+#  jpa:
+#    database-platform: org.hibernate.dialect.Oracle10gDialect
+#    hibernate:
+#      ddl-auto: none #validate
+#  redis:
+#    database: 1
+#    host: 172.16.4.91
+#    port: 6379
+#    password: dhr123
+#    timeout: 5000ms
+#    lettuce:
+#      pool:
+#        min-idle: 0
+#        max-idle: 8
+#        max-wait: -1ms
+#        max-active: 8
+#  data:
+#    mongodb:
+#      uri: mongodb://dhr_hr:dhr123@172.16.4.91:27017/dhr_hr
+#  servlet:
+#    multipart:
+#      maxFileSize: 5MB
+
+
+security:
+  oauth2:
+    client:
+      clientId: resource_user
+      clientSecret: 123
+      userAuthorizationUri: http://localhost:9000/oauth/authorize
+      grant-type: authorization_code
+      scope: all
+      access-token-uri: http://localhost:9000/oauth/token
+    resource:
+      user-info-uri: http://localhost:9000/user
+      prefer-token-info: false
+    authorization:
+      check-token-access: http://localhost:9000/oauth/check_token
+
+logging:
+  level:
+    ROOT: debug

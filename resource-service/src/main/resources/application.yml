@@ -1,0 +1,39 @@
+server:
+  port: 8002
+  tomcat:
+    max-http-post-size:
+
+security:
+  oauth2:
+    client:
+      clientId: resource
+      clientSecret: 123
+      userAuthorizationUri: http://localhost:9000/oauth/authorize
+      grant-type: password
+      scope: all
+      access-token-uri: http://localhost:9000/oauth/token
+    resource:
+      userInfoUri: http://localhost:9000/user
+    authorization:
+      check-token-access: http://localhost:9000/oauth/check_token
+
+
+spring:
+  application:
+    name: resource-service
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+
+#  zipkin:
+#    base-url: http://127.0.0.1:9411/ #zipkin server的请求地址
+#    discoveryClientEnabled: false #让nacos把它当成一个URL，而不要当做服务名
+#  sleuth:
+#    sampler:
+#      probability: 1.0 #采样的百分比

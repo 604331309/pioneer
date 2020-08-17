@@ -1,0 +1,15 @@
+server:
+  port: 8761
+
+eureka:
+  instance:
+    # 此处需要去hosts文件中手动声明discovery对应的ip
+    hostname: discovery
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    # 关闭自我保护模式，如果不关闭，在没收到服务列表中85%的客户端实例的心跳包则会长久驻留服务列表，如果某几个服务在迁移了端口或者服务器后，之前的路由记录会一直驻留在服务列表
+    enable-self-preservation: false
